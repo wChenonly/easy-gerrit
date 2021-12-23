@@ -1,9 +1,11 @@
 import * as vscode from 'vscode'
+import * as path from 'path'
 import { commitEditQuickPickOptions, commitDetailType } from './commit/commit-detail'
 import commitType from './commit/commit-type'
 import commitInputType from './commit/commit-input'
-import { gitAPI } from './git/gitApi'
-import { messageCombine, GitMessage, clearMessage } from './utils/informationProcess'
+import { gitAPI } from './git/git-api'
+import { messageCombine, GitMessage, clearMessage } from './commit/commit-information'
+import { showBranchQuickPick, showRepoQuickPick } from './git/git-push'
 
 
 export function activate(context: vscode.ExtensionContext) {
@@ -70,7 +72,22 @@ export function activate(context: vscode.ExtensionContext) {
 
   //向gerrit提交code
   const startPushCode = () => {
-    console.error('startPushCode')
+    const repoRaw = gitAPI('repos')
+    const repos: any = []
+    repoRaw.forEach((value: any, index: number) => {
+      const _name = path.basename(value._repository.root)
+      const _desc = [value._repository.headLabel, value._repository.syncLabel]
+        .filter(l => !!l)
+        .join(' ')
+      repos.push({ id: index, label: _name, description: _desc })
+    })
+    const repoId: any = showRepoQuickPick(repos)
+    const branchRaw = gitAPI('branch', '', repoId['id'])
+    const branch: string[] = []
+    branchRaw.forEach(function (value: any) {
+      branch.push(value['name'])
+    })
+    showBranchQuickPick(branch, repoId['id'])
   }
 
 
