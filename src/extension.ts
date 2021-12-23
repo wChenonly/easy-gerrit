@@ -13,14 +13,20 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('easy-gerrit.helloWorld', () => {
+	let editingCommit = vscode.commands.registerCommand('easy-gerrit.editingCommit', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from easy-gerrit!');
+		vscode.window.showInformationMessage('editingCommiteditingCommit!');
 	});
 
-	context.subscriptions.push(disposable);
+	let pushCode = vscode.commands.registerCommand('easy-gerrit.pushCode', () => {
+		// The code you place here will be executed every time your command is executed
+		// Display a message box to the user
+		vscode.window.showInformationMessage('pushCodepushCodepushCode!');
+	});
+
+	context.subscriptions.push(editingCommit, pushCode);
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

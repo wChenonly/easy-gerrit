@@ -1,5 +1,5 @@
 {
-  "name": "easy-gerrit",
+	"name": "easy-gerrit",
 	"displayName": "easy-gerrit",
 	"description": "方便在vscode中直接提交代码到gerrit",
 	"version": "0.0.1",
@@ -10,16 +10,37 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:easy-gerrit.helloWorld"
+		"onCommand:easy-gerrit.editingCommit",
+		"onCommand:easy-gerrit.pushCode"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "easy-gerrit.helloWorld",
-				"title": "Hello World"
+				"command": "easy-gerrit.editingCommit",
+				"title": "editingCommit",
+				"icon":"/images/editing-commit.svg"
+			},
+			{
+				"command": "easy-gerrit.pushCode",
+				"title": "pushCode",
+				"icon":"/images/push-code.svg"
 			}
-		]
+		],
+		"menus": {
+			"scm/title": [
+				{
+					"when": "scmProvider == git",
+					"command": "easy-gerrit.editingCommit",
+					"group": "navigation"
+				},
+				{
+					"when": "scmProvider == git",
+					"command": "easy-gerrit.pushCode",
+					"group": "navigation"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
