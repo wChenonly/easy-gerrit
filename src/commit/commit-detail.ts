@@ -11,23 +11,20 @@ export const commitEditQuickPickOptions: QuickPickOptions = {
 interface CommitDetailType {
     label: string;
     key: string
-    description: string,
     detail: string
     isEdit: boolean
 }
 
 export const commitDetailType: Array<CommitDetailType> = [
     {
-        label: '<Scope>',
+        label: '修改范围',
         key: 'scope',
-        description: '修改范围',
         detail: '本次修改包含哪些模块',
         isEdit: false,
     },
     {
-        label: '<Details>',
+        label: '详细内容',
         key: 'details',
-        description: '详细内容',
         detail: '本次修改的详细内容',
         isEdit: false
     }

@@ -3,7 +3,7 @@ import { commitEditQuickPickOptions, commitDetailType } from './commit/commit-de
 import commitType from './commit/commit-type';
 import commitInputType from './commit/commit-input';
 import { gitAPI } from './git/gitApi';
-import { messageCombine, GitMessage } from './utils/informationProcess';
+import { messageCombine, GitMessage, clearMessage } from './utils/informationProcess';
 
 
 export function activate(context: vscode.ExtensionContext) {
@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
 	//输入提交详情 Input message detail
 	const inputMessageDetail = (_key: string) => {
 		const _detailType = commitDetailType.find((item) => item.key === _key);
-		commitInputType.prompt = `${_detailType?.description} ⚠️👉 ${_detailType?.detail}`;
+		commitInputType.prompt = `${_detailType?.label} ⚠️👉 ${_detailType?.detail}`;
 		commitInputType.value = messageConfig[_key] ? messageConfig[_key] : '';
 		vscode.window.showInputBox(commitInputType).then((value) => {
 			const _value = value || '';
@@ -53,21 +53,24 @@ export function activate(context: vscode.ExtensionContext) {
 			if (_detailType?.key !== 'details') {
 				recursiveInputMessage('details');
 			}
-			// if (_detailType?.key === 'details') {
-			// 	recursiveInputMessage('details');
-			completeInputMessage();
-			// }
+			if (_detailType?.key === 'details') {
+				completeInputMessage();
+			}
 		});
 	};
 	//完成输入 Complete input message
-	const completeInputMessage = (select?: boolean) => {
+	const completeInputMessage = () => {
 		vscode.commands.executeCommand('workbench.view.scm');
 		let repo = gitAPI("repos");
 		repo.inputBox.value = messageCombine(messageConfig);
+		clearMessage(messageConfig, commitDetailType);
 	};
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
+
+
+
+
+
+	
 	let editingCommit = vscode.commands.registerCommand('easy-gerrit.editingCommit', () => {
 		startEditingCommit();
 	});

@@ -14,11 +14,11 @@ export function messageCombine(config: GitMessage) {
   if (config.type) {
     result += `${config.type}: `;
   }
-  if (config.details) {
-    result += `${config.details}->> `;
-  }
   if (config.scope) {
-    result += `${config.scope} `;
+    result += `${config.scope}->> `;
+  }
+  if (config.details) {
+    result += `${config.details} `;
   }
   result = result.replace(/<enter>/g, '\n\n');
   result = result.replace(/<space>/g, ' ');
@@ -26,3 +26,11 @@ export function messageCombine(config: GitMessage) {
 }
 
 
+//清除填写信息 Clear message
+export function clearMessage(messageConfig: GitMessage, commitDetailType: any) {
+  Object.keys(messageConfig).forEach((key) => (messageConfig[key] = ''));
+  commitDetailType.map((item: any) => {
+    item.isEdit = false;
+    return item;
+  });
+}
