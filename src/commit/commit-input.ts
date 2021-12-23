@@ -1,14 +1,14 @@
-import { InputBoxOptions } from 'vscode';
+import { InputBoxOptions } from 'vscode'
 
 /**
  * @description git commit input 输入提交信息的配置对象
  */
-export interface CommitInputType extends InputBoxOptions { }
+export type CommitInputType = InputBoxOptions
 const commitInputType: CommitInputType = {
-    placeHolder: '请输入提交信息(Input Commit Message)',
-    ignoreFocusOut: true,
-    prompt: '',
-    value: ''
-};
+  placeHolder: '请输入提交信息(Input Commit Message)',
+  ignoreFocusOut: true,
+  prompt: '',
+  value: ''
+}
 
-export default commitInputType;
+export default commitInputType
