@@ -5,12 +5,7 @@ export function gitAPI(val: string, pushBranch = '', id = 0) {
   const gitExtension = vscode.extensions.getExtension('vscode.git')
   const git = gitExtension?.exports
   const api = git.getAPI(1)
-
-  if (val === 'branch') {
-    const repo = api.repositories[id]
-    const branch = repo.getBranches('origin')
-    return branch
-  } else if (val === 'push') {
+  if (val === 'push') {
     const repo = api.repositories[id]
     repo.push('origin', `HEAD:refs/for/${pushBranch}`)
       .catch((err: any) => {
@@ -18,7 +13,7 @@ export function gitAPI(val: string, pushBranch = '', id = 0) {
       })
     return repo
   } else if (val === 'repos') {
-    const repo = api.repositories[id]
+    const repo = api.repositories
     return repo
   }
 }

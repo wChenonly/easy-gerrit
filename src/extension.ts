@@ -9,6 +9,8 @@ import { showBranchQuickPick, showRepoQuickPick } from './git/git-push'
 
 
 export function activate(context: vscode.ExtensionContext) {
+  //获取当前的 git仓库实例
+  let repo: any = gitAPI('repos')[0]
 
   //最终在scm上显示的消息合集
   const messageConfig: GitMessage = {
@@ -45,11 +47,16 @@ export function activate(context: vscode.ExtensionContext) {
   //输入提交详情 Input message detail
   const inputMessageDetail = (_key: string) => {
     const _detailType = commitDetailType.find((item) => item.key === _key)
-    commitInputType.prompt = `${_detailType?.label} ⚠️👉 ${_detailType?.detail}`
+    commitInputType.prompt = `${_detailType?.label} 👉 ${_detailType?.detail}`
     commitInputType.value = messageConfig[_key] ? messageConfig[_key] : ''
     vscode.window.showInputBox(commitInputType).then((value) => {
-      const _value = value || ''
-      messageConfig[_key] = _value
+      // 如果是空，则代表用户没写数据，此时就重新跳转到选择填写页面
+      if (!value) {
+        vscode.window.showErrorMessage(`请务必填写 ${_detailType?.label} 👉 ${_detailType?.detail}`)
+        recursiveInputMessage(_key)
+        return
+      }
+      messageConfig[_key] = value || ''
       _detailType && (_detailType.isEdit = true)
       // 第二次让用户填写commit details详情
       if (_detailType?.key !== 'details') {
@@ -60,10 +67,11 @@ export function activate(context: vscode.ExtensionContext) {
       }
     })
   }
+
+
   //完成输入 Complete input message
   const completeInputMessage = () => {
     vscode.commands.executeCommand('workbench.view.scm')
-    const repo = gitAPI('repos')
     repo.inputBox.value = messageCombine(messageConfig)
     clearMessage(messageConfig, commitDetailType)
   }
@@ -71,33 +79,33 @@ export function activate(context: vscode.ExtensionContext) {
 
 
   //向gerrit提交code
-  const startPushCode = () => {
-    const repoRaw = gitAPI('repos')
+  const startPushCode = async () => {
     const repos: any = []
-    repoRaw.forEach((value: any, index: number) => {
-      const _name = path.basename(value._repository.root)
-      const _desc = [value._repository.headLabel, value._repository.syncLabel]
-        .filter(l => !!l)
-        .join(' ')
-      repos.push({ id: index, label: _name, description: _desc })
-    })
-    const repoId: any = showRepoQuickPick(repos)
-    const branchRaw = gitAPI('branch', '', repoId['id'])
-    const branch: string[] = []
-    branchRaw.forEach(function (value: any) {
-      branch.push(value['name'])
-    })
-    showBranchQuickPick(branch, repoId['id'])
+    repos.push({ label: path.basename(repo._repository.root), branch: repo._repository.headLabel })
+    const repoId: any = await showRepoQuickPick(repos)
+    showBranchQuickPick(repoId.branch)
   }
 
 
-
-
-  const editingCommit = vscode.commands.registerCommand('easy-gerrit.editingCommit', () => {
+  //提交commit
+  const editingCommit = vscode.commands.registerCommand('easy-gerrit.editingCommit', (u) => {
+    if (u) {
+      // 如果开的空间，则有多个repo，则寻找当前的
+      repo = gitAPI('repos').find((repo: any) => {
+        return repo.rootUri.path === u._rootUri.path
+      })
+    }
     startEditingCommit()
   })
 
-  const pushCode = vscode.commands.registerCommand('easy-gerrit.pushCode', () => {
+  // 提交code
+  const pushCode = vscode.commands.registerCommand('easy-gerrit.pushCode', (u) => {
+    if (u) {
+      // 如果开的空间，则有多个repo，则寻找当前的
+      repo = gitAPI('repos').find((repo: any) => {
+        return repo.rootUri.path === u._rootUri.path
+      })
+    }
     startPushCode()
   })
 
