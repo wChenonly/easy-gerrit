@@ -1,66 +1,75 @@
 {
-	"name": "easy-gerrit",
-	"displayName": "easy-gerrit",
-	"description": "方便在vscode中直接提交代码到gerrit",
-	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.63.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:easy-gerrit.editingCommit",
-		"onCommand:easy-gerrit.pushCode"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "easy-gerrit.editingCommit",
-				"title": "editingCommit",
-				"icon":"/images/editing-commit.svg"
-			},
-			{
-				"command": "easy-gerrit.pushCode",
-				"title": "pushCode",
-				"icon":"/images/push-code.svg"
-			}
-		],
-		"menus": {
-			"scm/title": [
-				{
-					"when": "scmProvider == git",
-					"command": "easy-gerrit.editingCommit",
-					"group": "navigation"
-				},
-				{
-					"when": "scmProvider == git",
-					"command": "easy-gerrit.pushCode",
-					"group": "navigation"
-				}
-			]
-		}
-	},
-	"scripts": {
-		"vscode:prepublish": "yarn run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "yarn run compile && yarn run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/vscode": "^1.63.0",
-		"@types/glob": "^7.1.4",
-		"@types/mocha": "^9.0.0",
-		"@types/node": "14.x",
-		"@typescript-eslint/eslint-plugin": "^5.1.0",
-		"@typescript-eslint/parser": "^5.1.0",
-		"eslint": "^8.1.0",
-		"glob": "^7.1.7",
-		"mocha": "^9.1.3",
-		"typescript": "^4.4.4",
-		"@vscode/test-electron": "^1.6.2"
-	}
+  "name": "easy-gerrit",
+  "displayName": "easy-gerrit",
+  "description": "方便在vscode中直接提交代码到gerrit",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.63.0"
+  },
+  "icon": "images/logo.png",
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/W-ChenAMG/easy-gerrit"
+  },
+  "issue": {
+    "url": "https://github.com/W-ChenAMG/easy-gerrit/issues"
+  },
+  "activationEvents": [
+    "onCommand:easy-gerrit.editingCommit",
+    "onCommand:easy-gerrit.pushCode"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "easy-gerrit.editingCommit",
+        "title": "editingCommit",
+        "icon": "/images/editing-commit.svg"
+      },
+      {
+        "command": "easy-gerrit.pushCode",
+        "title": "pushCode",
+        "icon": "/images/push-code.svg"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "when": "scmProvider == git",
+          "command": "easy-gerrit.editingCommit",
+          "group": "navigation"
+        },
+        {
+          "when": "scmProvider == git",
+          "command": "easy-gerrit.pushCode",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "build": "vsce package",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.63.0",
+    "@types/glob": "^7.1.4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "14.x",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^8.1.0",
+    "glob": "^7.1.7",
+    "mocha": "^9.1.3",
+    "typescript": "^4.4.4",
+    "@vscode/test-electron": "^1.6.2"
+  }
 }
