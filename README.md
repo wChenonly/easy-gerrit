@@ -12,8 +12,8 @@
 
 插件🔍安装：easy-gerrit
 
-## ![使用说明](/Users/weifan/Downloads/使用说明.gif)
+![使用说明](/Users/weifan/Documents/GitHub/easy-gerrit/images/instructions.gif)
 
 
 
-**Enjoy!**
+# **🎉Enjoy!🎉**
