@@ -28,12 +28,18 @@
       {
         "command": "easy-gerrit.editingCommit",
         "title": "editingCommit",
-        "icon": "/images/editing-commit.svg"
+        "icon": {
+					"dark": "/images/dark-editing-commit.svg",
+					"light": "/images/light-editing-commit.svg"
+				}
       },
       {
         "command": "easy-gerrit.pushCode",
         "title": "pushCode",
-        "icon": "/images/push-code.svg"
+        "icon": {
+					"dark": "/images/dark-push-code.svg",
+					"light": "/images/light-push-code.svg"
+				}
       }
     ],
     "menus": {
