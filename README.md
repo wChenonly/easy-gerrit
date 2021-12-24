@@ -12,7 +12,7 @@
 
 插件🔍安装：easy-gerrit
 
-![使用说明](/Users/weifan/Documents/GitHub/easy-gerrit/images/instructions.gif)
+![使用说明](/images/instructions.gif)
 
 
 
