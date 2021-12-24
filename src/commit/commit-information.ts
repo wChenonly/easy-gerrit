@@ -1,13 +1,21 @@
 
-
-//组合信息 Portfolio information，用于将各个模块的信息组合成一个信息，方便后续的处理，包含commit类型，scope范围，details详情，
-
-export interface GitMessage {
+// messageConfig 接口校验
+interface GitMessage {
   [index: string]: string;
   type: string;
   scope: string;
   details: string;
 }
+
+
+//最终在scm上显示的消息合集
+export const messageConfig: GitMessage = {
+  type: '',
+  scope: '',
+  details: ''
+}
+
+//组合信息 Portfolio information，用于将各个模块的信息组合成一个信息，方便后续的处理，包含commit类型，scope范围，details详情，
 
 export function messageCombine(config: GitMessage) {
   let result = ''
@@ -26,7 +34,7 @@ export function messageCombine(config: GitMessage) {
 }
 
 
-//清除填写信息 Clear message
+//清除填写的input信息
 export function clearMessage(messageConfig: GitMessage, commitDetailType: any) {
   Object.keys(messageConfig).forEach((key) => (messageConfig[key] = ''))
   commitDetailType.map((item: any) => {

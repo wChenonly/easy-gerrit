@@ -4,7 +4,7 @@ import { commitEditQuickPickOptions, commitDetailType } from './commit/commit-de
 import commitType from './commit/commit-type'
 import commitInputType from './commit/commit-input'
 import { gitAPI } from './git/git-api'
-import { messageCombine, GitMessage, clearMessage } from './commit/commit-information'
+import { messageCombine, clearMessage, messageConfig } from './commit/commit-information'
 import { showBranchQuickPick, showRepoQuickPick } from './git/git-push'
 
 
@@ -12,17 +12,11 @@ export function activate(context: vscode.ExtensionContext) {
   //获取当前的 git仓库实例
   let repo: any = gitAPI('repos')[0]
 
-  //最终在scm上显示的消息合集
-  const messageConfig: GitMessage = {
-    type: '',
-    scope: '',
-    details: ''
-  }
 
 
   //点击编辑editingCommit的时候，自动弹框选择commit type
   const startEditingCommit = () => {
-    commitEditQuickPickOptions.placeHolder = '提交 commit 类型(Submit Commit Type)'
+    commitEditQuickPickOptions.placeHolder = '提交 commit 类型(submit commit type)'
     vscode.window.showQuickPick(commitType, commitEditQuickPickOptions).then((select: any) => {
       messageConfig.type = select.label
 
@@ -33,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // 递归输入信息
   const recursiveInputMessage = (type: string) => {
-    commitEditQuickPickOptions.placeHolder = '请点击下方选项，后填写信息(Submit Commit Describe Info)'
+    commitEditQuickPickOptions.placeHolder = '请点击下方选项，后填写信息(click on the options below and fill information)'
     const _commitDetailType = commitDetailType.filter((item) => {
       if (item.key === type) {
         return item
@@ -41,16 +35,26 @@ export function activate(context: vscode.ExtensionContext) {
     })
     vscode.window.showQuickPick(_commitDetailType, commitEditQuickPickOptions).then((item) => {
       const key = (item && item.key) || ''
-      inputMessageDetail(key)
+      if (key) {
+        inputMessageDetail(key)
+      }
+
     })
   }
-  //输入提交详情 Input message detail
+  // 输入提交详情
   const inputMessageDetail = (_key: string) => {
     const _detailType = commitDetailType.find((item) => item.key === _key)
+    commitInputType.placeHolder = _detailType?.key === 'details' ? '请输入修改详情(please enter the modification details)' : '请输入修改范围(please enter the modification scope)'
     commitInputType.prompt = `${_detailType?.label} 👉 ${_detailType?.detail}`
-    commitInputType.value = messageConfig[_key] ? messageConfig[_key] : ''
     vscode.window.showInputBox(commitInputType).then((value) => {
       // 如果是空，则代表用户没写数据，此时就重新跳转到选择填写页面
+
+      // 是按下ESC键
+      // vscode.window.document.addEventListener('keyup', (e) => {
+      //   console.error(11, e)
+      //   // if (e.keyCode == 27) {
+      //   // }
+      // })
       if (!value) {
         vscode.window.showErrorMessage(`请务必填写 ${_detailType?.label} 👉 ${_detailType?.detail}`)
         recursiveInputMessage(_key)
@@ -69,14 +73,12 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
 
-  //完成输入 Complete input message
+  // 完成输入信息
   const completeInputMessage = () => {
     vscode.commands.executeCommand('workbench.view.scm')
     repo.inputBox.value = messageCombine(messageConfig)
     clearMessage(messageConfig, commitDetailType)
   }
-
-
 
   //向gerrit提交code
   const startPushCode = async () => {
@@ -95,6 +97,8 @@ export function activate(context: vscode.ExtensionContext) {
         return repo.rootUri.path === u._rootUri.path
       })
     }
+    //清空scm上的信息
+    repo.inputBox.value = ''
     startEditingCommit()
   })
 

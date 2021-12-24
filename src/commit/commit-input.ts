@@ -5,10 +5,9 @@ import { InputBoxOptions } from 'vscode'
  */
 export type CommitInputType = InputBoxOptions
 const commitInputType: CommitInputType = {
-  placeHolder: '请输入提交信息(Input Commit Message)',
+  placeHolder: '',
   ignoreFocusOut: true,
-  prompt: '',
-  value: ''
+  prompt: ''
 }
 
 export default commitInputType
