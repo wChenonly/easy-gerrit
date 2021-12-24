@@ -2,7 +2,7 @@
   "name": "easy-gerrit",
   "displayName": "easy-gerrit",
   "description": "方便在vscode中直接提交代码到gerrit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "weifan",
   "engines": {
     "vscode": "^1.63.0"
