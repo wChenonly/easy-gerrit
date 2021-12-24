@@ -3,6 +3,7 @@
   "displayName": "easy-gerrit",
   "description": "方便在vscode中直接提交代码到gerrit",
   "version": "0.0.1",
+  "publisher": "weifan",
   "engines": {
     "vscode": "^1.63.0"
   },
@@ -53,6 +54,7 @@
   "scripts": {
     "vscode:prepublish": "yarn run compile",
     "build": "vsce package",
+    "publish": "vsce package && vsce publish",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
