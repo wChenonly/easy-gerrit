@@ -12,8 +12,5 @@
 
 插件🔍安装：easy-gerrit
 
-![使用说明](/images/instructions.gif)
-
-
 
 # **🎉Enjoy!🎉**
