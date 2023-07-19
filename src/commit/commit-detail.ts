@@ -1,15 +1,13 @@
-import { QuickPickOptions } from 'vscode'
-
+import type { QuickPickOptions } from 'vscode'
 
 export const commitEditQuickPickOptions: QuickPickOptions = {
   matchOnDescription: true,
   matchOnDetail: true,
-  ignoreFocusOut: true
+  ignoreFocusOut: true,
 }
 
-
 interface CommitDetailType {
-  label: string;
+  label: string
   key: string
   detail: string
   isEdit: boolean
@@ -26,6 +24,6 @@ export const commitDetailType: Array<CommitDetailType> = [
     label: '详细内容',
     key: 'details',
     detail: '本次修改的详细内容',
-    isEdit: false
-  }
+    isEdit: false,
+  },
 ]

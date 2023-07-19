@@ -1,14 +1,12 @@
 import * as vscode from 'vscode'
 import { gitAPI } from './git-api'
 
-
 export async function showRepoQuickPick(val: any) {
   const result = vscode.window.showQuickPick(val, {
     placeHolder: '确定你的仓库(confirm your repo)',
   })
   return result
 }
-
 
 export function showBranchQuickPick(branch: string) {
   const quickPick = vscode.window.createQuickPick()
