@@ -66,6 +66,9 @@
     "lint": "eslint . && yarn run format",
     "format": "prettier --write ."
   },
+  "dependencies": {
+    "@vscode/vsce": "^2.19.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "@types/glob": "^8.1.0",
@@ -78,8 +81,5 @@
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
     "yarn": "^1.22.19"
-  },
-  "dependencies": {
-    "@vscode/vsce": "^2.19.0"
   }
 }
