@@ -73,7 +73,7 @@
     "@antfu/eslint-config": "^0.39.8",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^20.4.2",
+    "@types/node": "^20.4.3",
     "@types/vscode": "^1.80.0",
     "eslint": "^8.45.0",
     "glob": "^10.3.3",
